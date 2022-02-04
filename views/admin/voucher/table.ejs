@@ -1,0 +1,65 @@
+<table id="example2" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>No.</th>
+            <th>Nama Game</th>
+            <th>Category</th>
+            <th>Nominal</th>
+            <th>Status</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% for(let i = 0;i < vouchers.length;i++){ %>
+            <tr>
+                <td><%= i+1 %></td>
+                <td><%= vouchers[i].name %></td>
+                <td><%= vouchers[i]?.category?.name ?? '_' %></td>
+                <td>
+                    <% vouchers[i].nominals.forEach(nominal => { %>
+                    <span class="badge badge-warning">
+                        <%= nominal.coinName %> <%= nominal.coinQuantity %>
+                    </span>
+                    <% }) %>
+                </td>
+                <td>
+                    <% if(vouchers[i].status == 'Y'){ %>
+                    <span class="badge badge-success">
+                        Aktif
+                    </span>
+                    <% }else{ %>
+                    <span class="badge badge-danger">
+                        Tidak Aktif
+                    </span>
+                    <% } %>
+                </td>
+                <td>
+                    <form action="/voucher/status/<%= vouchers[i]._id %>?_method=PUT" method="POST" style="display: inline-block;">
+                        <button class="btn btn-primary btn-sm">
+                            <!-- <i class="fa fa-"></i> -->
+                            <% if(vouchers[i].status == 'Y'){ %>
+                                Matikan
+                            <% }else{ %>
+                                Hidupkan
+                            <% } %>
+                        </button>
+                    </form>
+                    <form action="/voucher/destroy/<%= vouchers[i]._id %>?_method=DELETE" method="POST" style="display: inline-block;">
+                        <a href="/voucher/edit/<%= vouchers[i]._id %>" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt"></i> Ubah</a>
+                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Hapus</button>
+                    </form>
+                </td>
+                </tr>
+                <% } %>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>No.</th>
+                    <th>Nama Game</th>
+                    <th>Category</th>
+                    <th>Nominal</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+            </tfoot>
+        </table>
